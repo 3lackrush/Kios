@@ -6,8 +6,9 @@ from APIconfig.config import *
 # Create your views here.
 
 def index(request):
-	print(USERNAME,PASSWORD)
 	payload = json.dumps({"username":USERNAME,"password":PASSWORD})
-	print(payload)
 	r = requests.post("https://api.zoomeye.org/user/login", data=payload)
-	return HttpResponse(r.content)
+	#token = str(r.content, encoding="utf8")
+	token = json.loads(r.content.decode("utf-8"))["access_token"]
+	
+	return HttpResponse(token)
